@@ -18,15 +18,26 @@ class FileControl(Entry):
         '                                '
     )
 
-    batchCount = None
-    blockCount = None
-    entryAddendaRecordCount = None
-    entryHashTotal = None
-    totalFileDebitEntryAmount = None
-    totalFileCreditEntryAmount = None
-    messageCode1 = ''
-    messageCode2 = ''
-    messageCode3 = ''
+    def __init__(self,
+                 batchCount=None,
+                 blockCount=None,
+                 entryAddendaRecordCount=None,
+                 entryHashTotal=None,
+                 totalFileDebitEntryAmount=None,
+                 totalFileCreditEntryAmount=None,
+                 messageCode1='',
+                 messageCode2='',
+                 messageCode3='',
+                 ):
+        self.batchCount = batchCount
+        self.blockCount = blockCount
+        self.entryAddendaRecordCount = entryAddendaRecordCount
+        self.entryHashTotal = entryHashTotal
+        self.totalFileDebitEntryAmount = totalFileDebitEntryAmount
+        self.totalFileCreditEntryAmount = totalFileCreditEntryAmount
+        self.messageCode1 = messageCode1
+        self.messageCode2 = messageCode2
+        self.messageCode3 = messageCode3
 
     def loads(self, line):
         self.batchCount = int(line[1:1 + 6])

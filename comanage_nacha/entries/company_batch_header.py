@@ -4,6 +4,7 @@ from comanage_nacha.entries.entry import Entry
 
 
 class CompanyBatchHeader(Entry):
+    code = '5'
     format = (
         "5"
         "{serviceClassCode:03d}"
@@ -20,21 +21,34 @@ class CompanyBatchHeader(Entry):
         "{batchNumber:07d}"
     )
 
-    code = '5'
-    serviceClassCode = None
-    companyName = None
-    companyDiscretionaryData = ''
-    companyId = None
-    standardEntryClass = None
-    companyEntryDescription = None
-    companyDescriptiveDate = None
-    effectiveEntryDate = None
-    settlementDate = ''
-    originatorStatusCode = 1
-    wellsFargoRoutingNumber = '09100001'
-    batchNumber = None
-    rejected = None
-    errorCode = None
+    def __init__(self,
+                 serviceClassCode=None,
+                 companyName=None,
+                 companyDiscretionaryData='',
+                 companyId=None,
+                 standardEntryClass=None,
+                 companyEntryDescription=None,
+                 companyDescriptiveDate=None,
+                 effectiveEntryDate=None,
+                 settlementDate='',
+                 originatorStatusCode=1,
+                 wellsFargoRoutingNumber='09100001',
+                 batchNumber=None,
+                 errorCode=None,
+                 ):
+        self.serviceClassCode = serviceClassCode
+        self.companyName = companyName
+        self.companyDiscretionaryData = companyDiscretionaryData
+        self.companyId = companyId
+        self.standardEntryClass = standardEntryClass
+        self.companyEntryDescription = companyEntryDescription
+        self.companyDescriptiveDate = companyDescriptiveDate
+        self.effectiveEntryDate = effectiveEntryDate
+        self.settlementDate = settlementDate
+        self.originatorStatusCode = originatorStatusCode
+        self.wellsFargoRoutingNumber = wellsFargoRoutingNumber
+        self.batchNumber = batchNumber
+        self.errorCode = errorCode
 
     def loads(self, line):
         self.serviceClassCode = int(line[1:1 + 3])
@@ -51,5 +65,4 @@ class CompanyBatchHeader(Entry):
         self.batchNumber = int(line[87:87 + 7])
 
         if line[79:79 + 4] == 'REJ0':
-            self.rejected = True
             self.errorCode = line[83:83 + 4]

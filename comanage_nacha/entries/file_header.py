@@ -4,6 +4,7 @@ from comanage_nacha.entries.entry import Entry
 
 
 class FileHeader(Entry):
+    code = '1'
     format = (
         "1"
         "{priorityCode:02d}"
@@ -20,22 +21,36 @@ class FileHeader(Entry):
         "{referenceCode: >8s}"
     )
 
-    code = '1'
-    priorityCode = None
-    wellsFargoRoutingNumber = '091000019'
-    fileId = None
-    fileCreationDate = None
-    fileCreationTime = None
-    fileCreationDateTime = None
-    fileIdModifier = None
-    recordSize = 94
-    blockingFactor = 10
-    formatCode = 1
-    originationBank = 'WELLS FARGO'
-    companyName = None
-    referenceCode = None
-    rejected = None
-    errorCode = None
+    def __init__(self,
+                 priorityCode=None,
+                 wellsFargoRoutingNumber='091000019',
+                 fileId=None,
+                 fileCreationDate=None,
+                 fileCreationTime=None,
+                 fileCreationDateTime=None,
+                 fileIdModifier=None,
+                 recordSize=94,
+                 blockingFactor=10,
+                 formatCode=1,
+                 originationBank='WELLS FARGO',
+                 companyName=None,
+                 referenceCode=None,
+                 errorCode=None,
+                 ):
+        self.priorityCode = priorityCode
+        self.wellsFargoRoutingNumber = wellsFargoRoutingNumber
+        self.fileId = fileId
+        self.fileCreationDate = fileCreationDate
+        self.fileCreationTime = fileCreationTime
+        self.fileCreationDateTime = fileCreationDateTime
+        self.fileIdModifier = fileIdModifier
+        self.recordSize = recordSize
+        self.blockingFactor = blockingFactor
+        self.formatCode = formatCode
+        self.originationBank = originationBank
+        self.companyName = companyName
+        self.referenceCode = referenceCode
+        self.errorCode = errorCode
 
     def loads(self, line):
         self.priorityCode = int(line[1: 1 + 2])
@@ -49,7 +64,6 @@ class FileHeader(Entry):
         self.formatCode = int(line[39: 39 + 1])
         self.originationBank = line[40: 40 + 23].rstrip()
         self.companyName = line[63: 63 + 23].rstrip()
-        self.referenceCode = line[86: 86 + 8].rstrip()
+        self.referenceCode = line[86: 86 + 8].lstrip()
         if line[79:79 + 4] == 'REJ0':
-            self.rejected = True
             self.errorCode = line[83: 83 + 4]

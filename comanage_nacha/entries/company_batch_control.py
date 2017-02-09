@@ -17,17 +17,28 @@ class CompanyBatchControl(Entry):
         '{batchNumber:07d}'
     )
 
-    serviceClassCode = None
-    entryAddendaCount = None
-    entryHash = None
-    totalBatchDebitEntryDollarAmount = None
-    totalBatchCreditEntryDollarAmount = None
-    companyId = None
-    wellsFargoRoutingNumber = '09100001'
-    batchNumber = None
-    companyBatchRecord = None
-    rejected = False
-    errorCode = None
+    def __init__(self,
+                 serviceClassCode=None,
+                 entryAddendaCount=None,
+                 entryHash=None,
+                 totalBatchDebitEntryDollarAmount=None,
+                 totalBatchCreditEntryDollarAmount=None,
+                 companyId=None,
+                 wellsFargoRoutingNumber='09100001',
+                 batchNumber=None,
+                 companyBatchRecord=None,
+                 errorCode=None,
+                 ):
+        self.serviceClassCode = serviceClassCode
+        self.entryAddendaCount = entryAddendaCount
+        self.entryHash = entryHash
+        self.totalBatchDebitEntryDollarAmount = totalBatchDebitEntryDollarAmount
+        self.totalBatchCreditEntryDollarAmount = totalBatchCreditEntryDollarAmount
+        self.companyId = companyId
+        self.wellsFargoRoutingNumber = wellsFargoRoutingNumber
+        self.batchNumber = batchNumber
+        self.companyBatchRecord = companyBatchRecord
+        self.errorCode = errorCode
 
     def loads(self, line):
         self.serviceClassCode = int(line[1: 1 + 3])
@@ -40,5 +51,4 @@ class CompanyBatchControl(Entry):
         self.batchNumber = int(line[87: 87 + 7])
 
         if line[79:79 + 4] == 'REJ0':
-            self.rejected = True
             self.errorCode = line[83:83 + 4]

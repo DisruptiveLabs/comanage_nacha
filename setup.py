@@ -3,7 +3,6 @@ import setuptools
 extras_require = {
     'tests': [
         'pytest',
-        'unittest2',
     ],
 }
 

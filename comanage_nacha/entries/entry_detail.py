@@ -18,20 +18,34 @@ class EntryDetail(Entry):
         '{traceNumber:07d}'
     )
 
-    transactionCode = None
-    receivingDFIRoutingNumber = None
-    routingNumberCheckDigit = None
-    receivingDFIAccountNumber = None
-    amount = None
-    individualId = None
-    individualName = None
-    discretionaryData = ''
-    addendaRecordIndicator = 0
-    wellsFargoRoutingNumber = '09100001'
-    traceNumber = None
-    companyBatchRecord = None
-    rejected = False
-    errorCode = None
+    def __init__(self,
+                 transactionCode=None,
+                 receivingDFIRoutingNumber=None,
+                 routingNumberCheckDigit=None,
+                 receivingDFIAccountNumber=None,
+                 amount=None,
+                 individualId=None,
+                 individualName=None,
+                 discretionaryData='',
+                 addendaRecordIndicator=0,
+                 wellsFargoRoutingNumber='09100001',
+                 traceNumber=None,
+                 companyBatchRecord=None,
+                 errorCode=None,
+                 ):
+        self.transactionCode = transactionCode
+        self.receivingDFIRoutingNumber = receivingDFIRoutingNumber
+        self.routingNumberCheckDigit = routingNumberCheckDigit
+        self.receivingDFIAccountNumber = receivingDFIAccountNumber
+        self.amount = amount
+        self.individualId = individualId
+        self.individualName = individualName
+        self.discretionaryData = discretionaryData
+        self.addendaRecordIndicator = addendaRecordIndicator
+        self.wellsFargoRoutingNumber = wellsFargoRoutingNumber
+        self.traceNumber = traceNumber
+        self.companyBatchRecord = companyBatchRecord
+        self.errorCode = errorCode
 
     def loads(self, line):
         self.transactionCode = int(line[1: 1 + 2])
@@ -47,7 +61,6 @@ class EntryDetail(Entry):
         self.traceNumber = int(line[87:87 + 7])
 
         if line[79:79 + 4] == 'REJ0':
-            self.rejected = True
             self.errorCode = line[83:83 + 4]
 
     def validate_routing_number_check_digit(self):
@@ -56,4 +69,4 @@ class EntryDetail(Entry):
 
         assert len(digits) == len(weights)
         check_digit = 10 - (sum([a * b for a, b in zip(digits, weights)]) % 10)
-        return (check_digit, self.routingNumberCheckDigit)
+        return check_digit == self.routingNumberCheckDigit

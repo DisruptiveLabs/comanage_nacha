@@ -11,12 +11,18 @@ class EntryAddenda(Entry):
         '{entryDetailSequenceNumber:07d}'
     )
 
-    addendaTypeCode = 5
-    paymentInformation = ''
-    addendaSequenceNumber = 1
-    entryDetailSequenceNumber = 1
-    rejected = False
-    errorCode = None
+    def __init__(self,
+                 addendaTypeCode=5,
+                 paymentInformation='',
+                 addendaSequenceNumber=1,
+                 entryDetailSequenceNumber=1,
+                 errorCode=None,
+                 ):
+        self.addendaTypeCode = addendaTypeCode
+        self.paymentInformation = paymentInformation
+        self.addendaSequenceNumber = addendaSequenceNumber
+        self.entryDetailSequenceNumber = entryDetailSequenceNumber
+        self.errorCode = errorCode
 
     def loads(self, line):
         self.addendaTypeCode = int(line[1:1 + 2])
@@ -25,5 +31,4 @@ class EntryAddenda(Entry):
         self.entryDetailSequenceNumber = int(line[87:87 + 7])
 
         if line[79:79 + 4] == 'REJ0':
-            self.rejected = True
             self.errorCode = line[83:83 + 4]

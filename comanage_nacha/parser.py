@@ -1,5 +1,3 @@
-import six
-
 from comanage_nacha.entries import entry_types
 
 
