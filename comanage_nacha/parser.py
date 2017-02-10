@@ -1,4 +1,4 @@
-from comanage_nacha.entries import entry_types
+from .entries import entry_types
 
 
 class Parser(object):

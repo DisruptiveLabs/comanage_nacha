@@ -1,3 +1,4 @@
+from comanage_nacha.entries.entrybase import EntryBase
 from comanage_nacha.nacha_file import NachaFile
 
 
@@ -58,3 +59,4 @@ def test_lines():
     assert len(list(nacha.lines)) == 5
     batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=23, amount=10000).add_addenda()
     assert len(list(nacha.lines)) == 7
+    assert all(isinstance(line, EntryBase) for line in nacha.lines)
