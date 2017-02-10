@@ -9,9 +9,15 @@ class Batch:
         self.entries = []
 
     def add_entry(self, **kwargs):
+        kwargs.setdefault('error_code', self.batch_header.error_code)
         entry = Entry(self.entry_count + 1, **kwargs)
         self.entries.append(entry)
         return entry
+
+    def set_error_code(self, error_code):
+        self.batch_header.error_code = error_code
+        for entry in self.entries:
+            entry.set_error_code(error_code)
 
     @property
     def entry_hash(self):
@@ -34,6 +40,7 @@ class Batch:
             company_id=self.batch_header.company_id,
             wells_fargo_routing_number='09100001',
             batch_number=self.batch_number,
+            error_code=self.batch_header.error_code,
         )
 
     @property

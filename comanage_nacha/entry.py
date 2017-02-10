@@ -9,10 +9,16 @@ class Entry(object):
         self.addenda = []
 
     def add_addenda(self, **kwargs):
+        kwargs.setdefault('error_code', self.entry_detail.error_code)
         addenda = EntryAddenda(self.entry_detail.trace_number, **kwargs)
         self.entry_detail.addenda_record_indicator = 1
         self.addenda.append(addenda)
         return addenda
+
+    def set_error_code(self, error_code):
+        self.entry_detail.error_code = error_code
+        for addenda in self.addenda:
+            addenda.error_code = error_code
 
     @property
     def is_credit(self):

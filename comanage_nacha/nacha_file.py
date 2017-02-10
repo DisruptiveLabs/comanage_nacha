@@ -8,9 +8,15 @@ class NachaFile:
         self.batches = []
 
     def add_batch(self, **kwargs):
+        kwargs.setdefault('error_code', self.file_header.error_code)
         batch = Batch(self.batch_count + 1, **kwargs)
         self.batches.append(batch)
         return batch
+
+    def set_error_code(self, error_code):
+        self.file_header.error_code = error_code
+        for batch in self.batches:
+            batch.set_error_code(error_code)
 
     def calculate_entry_addenda_record_count(self):
         return sum(batch.entry_count + sum(entry.addenda_count for entry in batch.entries)
