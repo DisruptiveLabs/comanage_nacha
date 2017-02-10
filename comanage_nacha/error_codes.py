@@ -1,5 +1,3 @@
-# from __future__ import unicode_literals
-
 REJECTION_REASONS = {
     # File errors
     "0001": "No endpoints for destination ID",

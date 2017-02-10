@@ -1,19 +1,17 @@
-class Entry:
+import abc
+import six
+
+from comanage_nacha.error_codes import REJECTION_REASONS
+
+
+class EntryBase(six.with_metaclass(abc.ABCMeta)):
     code = '0'
     format = '0'
-    errorCode = None
+    error_code = None
 
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            if not hasattr(self, key):
-                raise KeyError("{} has no attribute {}".format(self.__class__.__name__, key))
-            setattr(self, key, value)
-
-    def __str__(self):
-        return self.dumps()
-
+    @abc.abstractmethod
     def loads(self, line):
-        pass
+        raise NotImplementedError
 
     def dumps(self):
         dikt = self.__class__.__dict__.copy()
@@ -24,7 +22,7 @@ class Entry:
             return (
                 dumped[:79] +
                 'REJ0' +
-                self.errorCode +
+                self.error_code +
                 dumped[87:]
             )
         return dumped
@@ -37,7 +35,11 @@ class Entry:
 
     @property
     def rejected(self):
-        return hasattr(self, 'errorCode') and self.errorCode is not None
+        return hasattr(self, 'error_code') and self.error_code is not None
+
+    @property
+    def error_reason(self):
+        return hasattr(self, 'error_code') and REJECTION_REASONS.get(self.error_code, None)
 
 
-__all__ = ['Entry']
+__all__ = ['EntryBase']

@@ -3,6 +3,8 @@ import setuptools
 extras_require = {
     'tests': [
         'pytest',
+        'pytest-cov',
+        'pytest-flake8',
     ],
 }
 

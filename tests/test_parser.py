@@ -36,4 +36,3 @@ def test_large():
     # Just test it doesnt throw exceptions basically
     parser = Parser()
     list(parser.parse(large))
-

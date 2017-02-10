@@ -1,72 +1,68 @@
-from comanage_nacha.entries.entry import Entry
+from comanage_nacha.entries.entrybase import EntryBase
+from comanage_nacha.utils.check_digit import validate_check_digit
 
 
-class EntryDetail(Entry):
+class EntryDetail(EntryBase):
     code = '6'
     format = (
         '6'
-        '{transactionCode:02d}'
-        '{receivingDFIRoutingNumber:0>8s}'
-        '{routingNumberCheckDigit:1d}'
-        '{receivingDFIAccountNumber: <17s}'
+        '{transaction_code:02d}'
+        '{receiving_dfi_routing_number:0>8s}'
+        '{routing_number_check_digit:1d}'
+        '{receiving_dfi_account_number: <17s}'
         '{amount:010d}'
-        '{individualId: <15s}'
-        '{individualName: <22s}'
-        '{discretionaryData: <2s}'
-        '{addendaRecordIndicator:1d}'
-        '{wellsFargoRoutingNumber:>8s}'
-        '{traceNumber:07d}'
+        '{individual_id: <15s}'
+        '{individual_name: <22s}'
+        '{discretionary_data: <2s}'
+        '{addenda_record_indicator:1d}'
+        '{wells_fargo_routing_number:>8s}'
+        '{trace_number:07d}'
     )
 
     def __init__(self,
-                 transactionCode=None,
-                 receivingDFIRoutingNumber=None,
-                 routingNumberCheckDigit=None,
-                 receivingDFIAccountNumber=None,
+                 transaction_code=None,
+                 receiving_dfi_routing_number=None,
+                 routing_number_check_digit=None,
+                 receiving_dfi_account_number=None,
                  amount=None,
-                 individualId=None,
-                 individualName=None,
-                 discretionaryData='',
-                 addendaRecordIndicator=0,
-                 wellsFargoRoutingNumber='09100001',
-                 traceNumber=None,
-                 companyBatchRecord=None,
-                 errorCode=None,
+                 individual_id=None,
+                 individual_name=None,
+                 discretionary_data='',
+                 addenda_record_indicator=0,
+                 wells_fargo_routing_number='09100001',
+                 trace_number=None,
+                 company_batch_record=None,
+                 error_code=None,
                  ):
-        self.transactionCode = transactionCode
-        self.receivingDFIRoutingNumber = receivingDFIRoutingNumber
-        self.routingNumberCheckDigit = routingNumberCheckDigit
-        self.receivingDFIAccountNumber = receivingDFIAccountNumber
+        self.transaction_code = transaction_code
+        self.receiving_dfi_routing_number = receiving_dfi_routing_number
+        self.routing_number_check_digit = routing_number_check_digit
+        self.receiving_dfi_account_number = receiving_dfi_account_number
         self.amount = amount
-        self.individualId = individualId
-        self.individualName = individualName
-        self.discretionaryData = discretionaryData
-        self.addendaRecordIndicator = addendaRecordIndicator
-        self.wellsFargoRoutingNumber = wellsFargoRoutingNumber
-        self.traceNumber = traceNumber
-        self.companyBatchRecord = companyBatchRecord
-        self.errorCode = errorCode
+        self.individual_id = individual_id
+        self.individual_name = individual_name
+        self.discretionary_data = discretionary_data
+        self.addenda_record_indicator = addenda_record_indicator
+        self.wells_fargo_routing_number = wells_fargo_routing_number
+        self.trace_number = trace_number
+        self.company_batch_record = company_batch_record
+        self.error_code = error_code
 
     def loads(self, line):
-        self.transactionCode = int(line[1: 1 + 2])
-        self.receivingDFIRoutingNumber = line[3: 3 + 8]
-        self.routingNumberCheckDigit = int(line[11: 11 + 1])
-        self.receivingDFIAccountNumber = line[12: 12 + 17].rstrip()
+        self.transaction_code = int(line[1: 1 + 2])
+        self.receiving_dfi_routing_number = line[3: 3 + 8]
+        self.routing_number_check_digit = int(line[11: 11 + 1])
+        self.receiving_dfi_account_number = line[12: 12 + 17].rstrip()
         self.amount = int(line[29: 29 + 10])
-        self.individualId = line[39: 39 + 15].rstrip()
-        self.individualName = line[54: 54 + 22].rstrip()
-        self.discretionaryData = line[76: 76 + 2].strip()
-        self.addendaRecordIndicator = int(line[78: 78 + 1])
-        self.wellsFargoRoutingNumber = line[79: 79 + 8]
-        self.traceNumber = int(line[87:87 + 7])
+        self.individual_id = line[39: 39 + 15].rstrip()
+        self.individual_name = line[54: 54 + 22].rstrip()
+        self.discretionary_data = line[76: 76 + 2].strip()
+        self.addenda_record_indicator = int(line[78: 78 + 1])
+        self.wells_fargo_routing_number = line[79: 79 + 8]
+        self.trace_number = int(line[87:87 + 7])
 
         if line[79:79 + 4] == 'REJ0':
-            self.errorCode = line[83:83 + 4]
+            self.error_code = line[83:83 + 4]
 
     def validate_routing_number_check_digit(self):
-        digits = [int(c) for c in self.receivingDFIRoutingNumber]
-        weights = [3, 7, 1, 3, 7, 1, 3, 7]
-
-        assert len(digits) == len(weights)
-        check_digit = 10 - (sum([a * b for a, b in zip(digits, weights)]) % 10)
-        return check_digit == self.routingNumberCheckDigit
+        return validate_check_digit(self.receiving_dfi_routing_number, self.routing_number_check_digit)

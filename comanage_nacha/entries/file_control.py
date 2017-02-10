@@ -1,56 +1,56 @@
-from .entry import Entry
+from .entrybase import EntryBase
 
 
-class FileControl(Entry):
+class FileControl(EntryBase):
     code = '9'
     format = (
         '9'
-        '{batchCount:06d}'
-        '{blockCount:06d}'
-        '{entryAddendaRecordCount:08d}'
-        '{entryHashTotal:010d}'
-        '{totalFileDebitEntryAmount:012d}'
-        '{totalFileCreditEntryAmount:012d}'
+        '{batch_count:06d}'
+        '{block_count:06d}'
+        '{entry_addenda_record_count:08d}'
+        '{entry_hash_total:010d}'
+        '{total_file_debit_entry_amount:012d}'
+        '{total_file_credit_entry_amount:012d}'
         ' '
-        '{messageCode1: <2s}'
-        '{messageCode2: <2s}'
-        '{messageCode3: <2s}'
+        '{message_code1: <2s}'
+        '{message_code2: <2s}'
+        '{message_code3: <2s}'
         '                                '
     )
 
     def __init__(self,
-                 batchCount=None,
-                 blockCount=None,
-                 entryAddendaRecordCount=None,
-                 entryHashTotal=None,
-                 totalFileDebitEntryAmount=None,
-                 totalFileCreditEntryAmount=None,
-                 messageCode1='',
-                 messageCode2='',
-                 messageCode3='',
+                 batch_count=None,
+                 block_count=None,
+                 entry_addenda_record_count=None,
+                 entry_hash_total=None,
+                 total_file_debit_entry_amount=None,
+                 total_file_credit_entry_amount=None,
+                 message_code1='',
+                 message_code2='',
+                 message_code3='',
                  ):
-        self.batchCount = batchCount
-        self.blockCount = blockCount
-        self.entryAddendaRecordCount = entryAddendaRecordCount
-        self.entryHashTotal = entryHashTotal
-        self.totalFileDebitEntryAmount = totalFileDebitEntryAmount
-        self.totalFileCreditEntryAmount = totalFileCreditEntryAmount
-        self.messageCode1 = messageCode1
-        self.messageCode2 = messageCode2
-        self.messageCode3 = messageCode3
+        self.batch_count = batch_count
+        self.block_count = block_count
+        self.entry_addenda_record_count = entry_addenda_record_count
+        self.entry_hash_total = entry_hash_total
+        self.total_file_debit_entry_amount = total_file_debit_entry_amount
+        self.total_file_credit_entry_amount = total_file_credit_entry_amount
+        self.message_code1 = message_code1
+        self.message_code2 = message_code2
+        self.message_code3 = message_code3
 
     def loads(self, line):
-        self.batchCount = int(line[1:1 + 6])
-        self.blockCount = int(line[7:7 + 6])
-        self.entryAddendaRecordCount = int(line[13:13 + 8])
-        self.entryHashTotal = int(line[21:21 + 10])
-        self.totalFileDebitEntryAmount = int(line[31:31 + 12])
-        self.totalFileCreditEntryAmount = int(line[43:43 + 12])
+        self.batch_count = int(line[1:1 + 6])
+        self.block_count = int(line[7:7 + 6])
+        self.entry_addenda_record_count = int(line[13:13 + 8])
+        self.entry_hash_total = int(line[21:21 + 10])
+        self.total_file_debit_entry_amount = int(line[31:31 + 12])
+        self.total_file_credit_entry_amount = int(line[43:43 + 12])
 
-        self.messageCode1 = line[56:56 + 2].strip()
-        self.messageCode2 = line[58:58 + 2].strip()
-        self.messageCode3 = line[60:60 + 2].strip()
+        self.message_code1 = line[56:56 + 2].strip()
+        self.message_code2 = line[58:58 + 2].strip()
+        self.message_code3 = line[60:60 + 2].strip()
 
     @property
     def messageCodes(self):
-        return [i for i in [self.messageCode1, self.messageCode2, self.messageCode3] if i]
+        return [i for i in [self.message_code1, self.message_code2, self.message_code3] if i]

@@ -1,68 +1,68 @@
 import datetime
 
-from comanage_nacha.entries.entry import Entry
+from comanage_nacha.entries.entrybase import EntryBase
 
 
-class CompanyBatchHeader(Entry):
+class CompanyBatchHeader(EntryBase):
     code = '5'
     format = (
         "5"
-        "{serviceClassCode:03d}"
-        "{companyName: <16s}"
-        "{companyDiscretionaryData: <20s}"
-        "{companyId: >10s}"
-        "{standardEntryClass: >3s}"
-        "{companyEntryDescription: <10s}"
-        "{companyDescriptiveDate: >6s}"
-        "{effectiveEntryDate:%y%m%d}"
-        "{settlementDate: >3s}"
-        "{originatorStatusCode:1d}"
-        "{wellsFargoRoutingNumber:8s}"
-        "{batchNumber:07d}"
+        "{service_class_code:03d}"
+        "{company_name: <16s}"
+        "{company_discretionary_data: <20s}"
+        "{company_id: >10s}"
+        "{standard_entry_class: >3s}"
+        "{company_entry_description: <10s}"
+        "{company_descriptive_date: >6s}"
+        "{effective_entry_date:%y%m%d}"
+        "{settlement_date: >3s}"
+        "{originator_status_code:1d}"
+        "{wells_fargo_routing_number:8s}"
+        "{batch_number:07d}"
     )
 
     def __init__(self,
-                 serviceClassCode=None,
-                 companyName=None,
-                 companyDiscretionaryData='',
-                 companyId=None,
-                 standardEntryClass=None,
-                 companyEntryDescription=None,
-                 companyDescriptiveDate=None,
-                 effectiveEntryDate=None,
-                 settlementDate='',
-                 originatorStatusCode=1,
-                 wellsFargoRoutingNumber='09100001',
-                 batchNumber=None,
-                 errorCode=None,
+                 service_class_code=None,
+                 company_name=None,
+                 company_discretionary_data='',
+                 company_id=None,
+                 standard_entry_class=None,
+                 company_entry_description=None,
+                 company_descriptive_date=None,
+                 effective_entry_date=None,
+                 settlement_date='',
+                 originator_status_code=1,
+                 wells_fargo_routing_number='09100001',
+                 batch_number=None,
+                 error_code=None,
                  ):
-        self.serviceClassCode = serviceClassCode
-        self.companyName = companyName
-        self.companyDiscretionaryData = companyDiscretionaryData
-        self.companyId = companyId
-        self.standardEntryClass = standardEntryClass
-        self.companyEntryDescription = companyEntryDescription
-        self.companyDescriptiveDate = companyDescriptiveDate
-        self.effectiveEntryDate = effectiveEntryDate
-        self.settlementDate = settlementDate
-        self.originatorStatusCode = originatorStatusCode
-        self.wellsFargoRoutingNumber = wellsFargoRoutingNumber
-        self.batchNumber = batchNumber
-        self.errorCode = errorCode
+        self.service_class_code = service_class_code
+        self.company_name = company_name
+        self.company_discretionary_data = company_discretionary_data
+        self.company_id = company_id
+        self.standard_entry_class = standard_entry_class
+        self.company_entry_description = company_entry_description
+        self.company_descriptive_date = company_descriptive_date
+        self.effective_entry_date = effective_entry_date
+        self.settlement_date = settlement_date
+        self.originator_status_code = originator_status_code
+        self.wells_fargo_routing_number = wells_fargo_routing_number
+        self.batch_number = batch_number
+        self.error_code = error_code
 
     def loads(self, line):
-        self.serviceClassCode = int(line[1:1 + 3])
-        self.companyName = line[4:4 + 16].rstrip()
-        self.companyDiscretionaryData = line[20:20 + 20].strip()
-        self.companyId = line[40:40 + 10]
-        self.standardEntryClass = line[50:50 + 3]
-        self.companyEntryDescription = line[53:53 + 10].rstrip()
-        self.companyDescriptiveDate = line[63:63 + 6].rstrip()
-        self.effectiveEntryDate = datetime.datetime.strptime(line[69:69 + 6], '%y%m%d').date()
-        self.settlementDate = line[75:75 + 3]
-        self.originatorStatusCode = int(line[78:78 + 1])
-        self.wellsFargoRoutingNumber = line[79:79 + 8]
-        self.batchNumber = int(line[87:87 + 7])
+        self.service_class_code = int(line[1:1 + 3])
+        self.company_name = line[4:4 + 16].rstrip()
+        self.company_discretionary_data = line[20:20 + 20].strip()
+        self.company_id = line[40:40 + 10]
+        self.standard_entry_class = line[50:50 + 3]
+        self.company_entry_description = line[53:53 + 10].rstrip()
+        self.company_descriptive_date = line[63:63 + 6].rstrip()
+        self.effective_entry_date = datetime.datetime.strptime(line[69:69 + 6], '%y%m%d').date()
+        self.settlement_date = line[75:75 + 3]
+        self.originator_status_code = int(line[78:78 + 1])
+        self.wells_fargo_routing_number = line[79:79 + 8]
+        self.batch_number = int(line[87:87 + 7])
 
         if line[79:79 + 4] == 'REJ0':
-            self.errorCode = line[83:83 + 4]
+            self.error_code = line[83:83 + 4]
