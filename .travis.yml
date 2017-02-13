@@ -10,7 +10,7 @@ python:
   - nightly
 
 install:
-  - pip install coveralls
+  - pip install 'pytest>=2.8' coveralls
 
 script:
   - python setup.py test
