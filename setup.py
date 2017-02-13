@@ -1,3 +1,4 @@
+import codecs
 import setuptools
 
 extras_require = {
@@ -15,7 +16,7 @@ setuptools.setup(
     author='DisruptiveLabs',
     author_email='team+nacha@comanage.com',
     description='NACHA File Generation',
-    long_description=open('README.rst', 'r', encoding='utf-8').read(),
+    long_description=codecs.open('README.rst', 'r', encoding='utf-8').read(),
     platforms='any',
     include_package_data=True,
     install_requires=['six'],
