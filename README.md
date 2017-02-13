@@ -1,5 +1,6 @@
 # comanage_nacha 
 [![Build Status](https://travis-ci.org/DisruptiveLabs/comanage_nacha.svg?branch=master)](https://travis-ci.org/DisruptiveLabs/comanage_nacha)
+[![PyPI version](https://badge.fury.io/py/comanage_nacha.svg)](https://badge.fury.io/py/comanage_nacha)
 
 A simple NACHA parser/builder/verification tool
 
