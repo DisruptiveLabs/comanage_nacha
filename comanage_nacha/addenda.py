@@ -7,3 +7,6 @@ class Addenda(object):
 
     def set_error_code(self, error_code):
         self.entry_addenda.error_code = error_code
+
+    def lines(self):
+        yield self.entry_addenda

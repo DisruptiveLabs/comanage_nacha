@@ -3,8 +3,8 @@ from .entries import FileHeader, FileControl
 
 
 class NachaFile:
-    def __init__(self, **kwargs):
-        self.file_header = FileHeader(**kwargs)
+    def __init__(self, file_header=None, **kwargs):
+        self.file_header = file_header or FileHeader(**kwargs)
         self.batches = []
 
     def add_batch(self, **kwargs):

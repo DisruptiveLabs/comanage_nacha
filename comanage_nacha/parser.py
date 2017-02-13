@@ -4,6 +4,10 @@ from .entries import entry_types
 class Parser(object):
     _blocking_file_control_record = '9' * 94
 
+    def __init__(self, confirmation_file=False, rejection_file=False):
+        self.confirmation_file = confirmation_file
+        self.rejection_file = rejection_file
+
     def parse(self, file_data):
         lines = file_data.split('\n')
 

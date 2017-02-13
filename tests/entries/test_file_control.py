@@ -37,7 +37,7 @@ def test_dumps_message_codes():
     assert "9000001000001000000050043383527000000000000000000238890 0102                                  " == file_control.dumps()
     file_control.message_code3 = '03'
     assert "9000001000001000000050043383527000000000000000000238890 010203                                " == file_control.dumps()
-    assert ['01', '02', '03'] == file_control.messageCodes
+    assert ['01', '02', '03'] == file_control.message_codes
 
 
 def test_loads_message_codes():
@@ -46,4 +46,4 @@ def test_loads_message_codes():
     assert '01' == file_control.message_code1
     assert '02' == file_control.message_code2
     assert 'TT' == file_control.message_code3
-    assert ['01', '02', 'TT'] == file_control.messageCodes
+    assert ['01', '02', 'TT'] == file_control.message_codes

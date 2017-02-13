@@ -52,5 +52,5 @@ class FileControl(EntryBase):
         self.message_code3 = line[60:60 + 2].strip()
 
     @property
-    def messageCodes(self):
+    def message_codes(self):
         return [i for i in [self.message_code1, self.message_code2, self.message_code3] if i]
