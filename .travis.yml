@@ -1,0 +1,29 @@
+language: python
+python:
+  - '2.6'
+  - '2.7'
+  - '3.2'
+  - '3.3'
+  - '3.4'
+  - '3.5'
+  - '3.6'
+  - nightly
+
+install:
+  - pip install coveralls
+
+script:
+  - python setup.py test
+
+after_success:
+  - coveralls
+
+deploy:
+  provider: pypi
+  user: kageurufu
+  password:
+    secure: ST9FV15qLRmHZRhmDCtwWbh4CiLVudZquots1L8db4l7BssXKikOecmxnoGDKSOvM0KYqPJ6ER6o98AF4Vi4k1PtNwgv8GADim/6fOFSryZ5bfAWexCcg9DSNEQt+9YTr36SI5qh3Iv7iZYMKwrMDt9jI98wgCZHkt8C5QMnaY6vqFV9eaHM0IIEtZ/UTxta2SwWrA/xbSnwQEiJVnuCSl5dhiux7Ewpl3miXal24BK7GNG74+RCeWPg6N3K6PPpNqLNHsPDwc6paz4y7a6QGMVkwgkV1k7abbBDkf3H650AjAasJS7zLPVHJ1YNS1kJVYvLwKUw0wv2zek7jTIQb2KzcfHi5Of4kcLggA0D5AnsrRYcCZB+4pfDY5KIxWeo5UgkNJIXS1rOKqOrJ1rpbV1FgVG7BECaoLgxGZ74HGJTpDnsph8VZmolSURLjPkRj3wK/d7mGBZWaQ+A4fQ01Cbf//z/CVt1RWLJfYjzbbkar2JRghZK9TyEirdItXl5HrpK/6dskWcrdml18BT4bpYjlUwrySdUftnQB8++pe3aeBfQMD8iYV42nHYMgIDx0jUmFLfwyNOFNk2hk9RUdQupRygNovp7L4iaxvanirLORCzdC8oGpRvf/mQWuxhHZYq5/mJek3b9AEOrmyJ5tZ+n+v38pmSF8/Ia09z2hAM=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: DisruptiveLabs/comanage_nacha

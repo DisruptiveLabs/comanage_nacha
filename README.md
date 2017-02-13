@@ -1,4 +1,12 @@
-# comanage_nacha
-A simple NACHA parser/builder
+# comanage_nacha 
+[![Build Status](https://travis-ci.org/DisruptiveLabs/comanage_nacha.svg?branch=master)](https://travis-ci.org/DisruptiveLabs/comanage_nacha)
 
-    python setup.py test
+A simple NACHA parser/builder/verification tool
+
+```bash
+$ python setup.py test
+```
+
+For examples of usage, currently see the tests. Documentation forthcoming
+
+You can run tests in multiple versions of python using tox
