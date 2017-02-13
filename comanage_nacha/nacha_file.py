@@ -52,3 +52,6 @@ class NachaFile:
             for line in batch.lines:
                 yield line
         yield self.file_control
+
+    def render_to_string(self):
+        return '\n'.join(line.dumps() for line in self.lines)
