@@ -6,17 +6,17 @@ class EntryDetail(EntryBase):
     code = '6'
     format = (
         '6'
-        '{transaction_code:02d}'
-        '{receiving_dfi_routing_number:0>8s}'
-        '{routing_number_check_digit:1d}'
-        '{receiving_dfi_account_number: <17s}'
-        '{amount:010d}'
-        '{individual_id: <15s}'
-        '{individual_name: <22s}'
-        '{discretionary_data: <2s}'
-        '{addenda_record_indicator:1d}'
-        '{wells_fargo_routing_number:>8s}'
-        '{trace_number:07d}'
+        '{transaction_code!d:02d}'
+        '{receiving_dfi_routing_number!s:0>8s}'
+        '{routing_number_check_digit!d:1d}'
+        '{receiving_dfi_account_number!s: <17s}'
+        '{amount!d:010d}'
+        '{individual_id!s: <15s}'
+        '{individual_name!s: <22s}'
+        '{discretionary_data!s: <2s}'
+        '{addenda_record_indicator!d:1d}'
+        '{wells_fargo_routing_number!s:>8s}'
+        '{trace_number!d:07d}'
     )
 
     def __init__(self,

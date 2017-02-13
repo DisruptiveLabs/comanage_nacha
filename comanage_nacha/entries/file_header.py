@@ -7,28 +7,27 @@ class FileHeader(EntryBase):
     code = '1'
     format = (
         "1"
-        "{priority_code:02d}"
-        "{wells_fargo_routing_number: >10s}"
-        "{file_id:10s}"
+        "{priority_code!d:02d}"
+        "{wells_fargo_routing_number!s: >10s}"
+        "{file_id!s:10s}"
         "{file_creation_date:%y%m%d}"
         "{file_creation_time:%H%M}"
-        "{file_id_modifier:1s}"
-        "{record_size:0>3d}"
-        "{blocking_factor:0>2d}"
-        "{format_code:1d}"
-        "{origination_bank: <23s}"
-        "{company_name: <23s}"
-        "{reference_code: >8s}"
+        "{file_id_modifier!s:1s}"
+        "{record_size!d:0>3d}"
+        "{blocking_factor!d:0>2d}"
+        "{format_code!d:1d}"
+        "{origination_bank!s: <23s}"
+        "{company_name!s: <23s}"
+        "{reference_code!s: >8s}"
     )
 
     def __init__(self,
-                 priority_code=None,
+                 priority_code=1,
                  wells_fargo_routing_number='091000019',
                  file_id=None,
                  file_creation_date=None,
                  file_creation_time=None,
-                 file_creation_date_time=None,
-                 file_id_modifier=None,
+                 file_id_modifier='A',
                  record_size=94,
                  blocking_factor=10,
                  format_code=1,
@@ -42,7 +41,6 @@ class FileHeader(EntryBase):
         self.file_id = file_id
         self.file_creation_date = file_creation_date
         self.file_creation_time = file_creation_time
-        self.file_creation_date_time = file_creation_date_time
         self.file_id_modifier = file_id_modifier
         self.record_size = record_size
         self.blocking_factor = blocking_factor

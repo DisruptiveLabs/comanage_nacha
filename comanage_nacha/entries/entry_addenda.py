@@ -5,10 +5,10 @@ class EntryAddenda(EntryBase):
     code = '7'
     format = (
         '7'
-        '{addenda_type_code:02d}'
-        '{payment_information: >80s}'
-        '{addenda_sequence_number:04d}'
-        '{entry_detail_sequence_number:07d}'
+        '{addenda_type_code!d:02d}'
+        '{payment_information!s: >80s}'
+        '{addenda_sequence_number!d:04d}'
+        '{entry_detail_sequence_number!d:07d}'
     )
 
     def __init__(self,

@@ -1,13 +1,23 @@
+from comanage_nacha.exceptions import EntryClosedError
 from .batch import Batch
 from .entries import FileHeader, FileControl
 
 
-class NachaFile:
-    def __init__(self, file_header=None, **kwargs):
+class NachaFile(object):
+    def __init__(self, file_header=None, file_control=None, batches=None, **kwargs):
         self.file_header = file_header or FileHeader(**kwargs)
-        self.batches = []
+        self.file_control = file_control
+        self.batches = batches or []
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
 
     def add_batch(self, **kwargs):
+        if self.file_control is not None:
+            raise EntryClosedError("This file has already been closed")
         kwargs.setdefault('error_code', self.file_header.error_code)
         batch = Batch(self.batch_count + 1, **kwargs)
         self.batches.append(batch)
@@ -34,9 +44,8 @@ class NachaFile:
     def batch_count(self):
         return len(self.batches)
 
-    @property
-    def file_control(self):
-        return FileControl(
+    def close(self):
+        self.file_control = FileControl(
             batch_count=len(self.batches),
             block_count=self.calculate_block_count(),
             entry_addenda_record_count=self.calculate_entry_addenda_record_count(),

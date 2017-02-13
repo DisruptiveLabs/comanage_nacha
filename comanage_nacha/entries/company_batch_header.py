@@ -7,18 +7,18 @@ class CompanyBatchHeader(EntryBase):
     code = '5'
     format = (
         "5"
-        "{service_class_code:03d}"
-        "{company_name: <16s}"
-        "{company_discretionary_data: <20s}"
-        "{company_id: >10s}"
-        "{standard_entry_class: >3s}"
-        "{company_entry_description: <10s}"
-        "{company_descriptive_date: >6s}"
+        "{service_class_code!d:03d}"
+        "{company_name!s: <16s}"
+        "{company_discretionary_data!s: <20s}"
+        "{company_id!s: >10s}"
+        "{standard_entry_class!s: >3s}"
+        "{company_entry_description!s: <10s}"
+        "{company_descriptive_date!s: >6s}"
         "{effective_entry_date:%y%m%d}"
-        "{settlement_date: >3s}"
-        "{originator_status_code:1d}"
-        "{wells_fargo_routing_number:8s}"
-        "{batch_number:07d}"
+        "{settlement_date!s: >3s}"
+        "{originator_status_code!d:1d}"
+        "{wells_fargo_routing_number!s:8s}"
+        "{batch_number!d:07d}"
     )
 
     def __init__(self,

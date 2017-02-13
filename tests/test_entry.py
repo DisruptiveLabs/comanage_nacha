@@ -10,12 +10,12 @@ def test_add_addenda():
 
 
 def test_is_credit():
-    entry = Entry(1, transaction_code='23')
+    entry = Entry(1, transaction_code=23)
     assert entry.is_credit
 
 
 def test_is_debit():
-    entry = Entry(1, transaction_code='27')
+    entry = Entry(1, transaction_code=27)
     assert entry.is_debit
 
 

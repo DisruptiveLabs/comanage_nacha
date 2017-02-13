@@ -1,0 +1,2 @@
+class EntryClosedError(Exception):
+    pass

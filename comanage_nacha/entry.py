@@ -9,6 +9,12 @@ class Entry(object):
         self.entry_detail = EntryDetail(trace_number=trace_number, **kwargs)
         self.addenda = []
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+
     def add_addenda(self, **kwargs):
         kwargs.setdefault('entry_detail_sequence_number', self.entry_detail.trace_number)
         kwargs.setdefault('error_code', self.entry_detail.error_code)
@@ -24,11 +30,11 @@ class Entry(object):
 
     @property
     def is_credit(self):
-        return self.entry_detail.transaction_code in ('22', '23', '32', '33')
+        return self.entry_detail.transaction_code in (22, 23, 32, 33)
 
     @property
     def is_debit(self):
-        return self.entry_detail.transaction_code in ('27', '28', '37', '38')
+        return self.entry_detail.transaction_code in (27, 28, 37, 38)
 
     @property
     def addenda_count(self):

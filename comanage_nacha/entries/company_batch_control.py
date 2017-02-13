@@ -5,16 +5,16 @@ class CompanyBatchControl(EntryBase):
     code = '8'
     format = (
         '8'
-        '{service_class_code:03d}'
-        '{entry_addenda_count:06d}'
-        '{entry_hash:010d}'
-        '{total_batch_debit_entry_dollar_amount:012d}'
-        '{total_batch_credit_entry_dollar_amount:012d}'
-        '{company_id: >10s}'
+        '{service_class_code!d:03d}'
+        '{entry_addenda_count!d:06d}'
+        '{entry_hash!d:010d}'
+        '{total_batch_debit_entry_dollar_amount!d:012d}'
+        '{total_batch_credit_entry_dollar_amount!d:012d}'
+        '{company_id!s: >10s}'
         '                   '  # Message Authentication Code (19 spaces)
         '      '  # Blank (6 spaces)
-        '{wells_fargo_routing_number: >8s}'
-        '{batch_number:07d}'
+        '{wells_fargo_routing_number!s: >8s}'
+        '{batch_number!d:07d}'
     )
 
     def __init__(self,

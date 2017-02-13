@@ -1,7 +1,9 @@
 import abc
+
 import six
 
 from comanage_nacha.error_codes import REJECTION_REASONS
+from comanage_nacha.utils.entry_formatter import EntryFormatter
 
 
 class EntryBase(six.with_metaclass(abc.ABCMeta)):
@@ -9,14 +11,15 @@ class EntryBase(six.with_metaclass(abc.ABCMeta)):
     format = '0'
     error_code = None
 
+    def __str__(self):
+        return self.dumps()
+
     @abc.abstractmethod
     def loads(self, line):
         raise NotImplementedError
 
     def dumps(self):
-        dikt = self.__class__.__dict__.copy()
-        dikt.update(self.__dict__)
-        dumped = self.format.format(**dikt)
+        dumped = EntryFormatter().format(self.format, **self.__dict__)
 
         if self.rejected:
             return (
