@@ -2,7 +2,7 @@ import setuptools
 
 extras_require = {
     'tests': [
-        'pytest',
+        'pytest>=2.8',
         'pytest-cov',
         'pytest-flake8',
     ],
@@ -19,7 +19,7 @@ setuptools.setup(
     platforms='any',
     include_package_data=True,
     install_requires=['six'],
-    setup_requires=['pytest-runner'],
+    setup_requires=['pytest-runner>=2.0,<3dev'],
     extras_require=extras_require,
     tests_require=extras_require['tests'],
     packages=setuptools.find_packages('.', exclude=('tests', 'tests.*')),
