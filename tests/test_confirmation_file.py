@@ -16,4 +16,4 @@ def test_build_confirmation_file():
                             amount=33300)
     lines = nacha.lines
     confirmation_lines = filter_confirmation_lines(lines)
-    assert {'1', '5', '8', '9'} == set(line.code for line in confirmation_lines)
+    assert set(['1', '5', '8', '9']) == set(line.code for line in confirmation_lines)
