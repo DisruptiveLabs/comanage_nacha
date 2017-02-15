@@ -1,3 +1,4 @@
+from comanage_nacha.enums import TransactionCodes
 from .addenda import Addenda
 from .entries import EntryDetail
 
@@ -30,11 +31,17 @@ class Entry(object):
 
     @property
     def is_credit(self):
-        return self.entry_detail.transaction_code in (22, 23, 32, 33)
+        return self.entry_detail.transaction_code in (TransactionCodes.CHECKING_CREDIT,
+                                                      TransactionCodes.SAVINGS_CREDIT,
+                                                      TransactionCodes.CHECKING_PRE_NOTE_CREDIT,
+                                                      TransactionCodes.SAVINGS_PRE_NOTE_CREDIT)
 
     @property
     def is_debit(self):
-        return self.entry_detail.transaction_code in (27, 28, 37, 38)
+        return self.entry_detail.transaction_code in (TransactionCodes.CHECKING_DEBIT,
+                                                      TransactionCodes.SAVINGS_DEBIT,
+                                                      TransactionCodes.CHECKING_PRE_NOTE_DEBIT,
+                                                      TransactionCodes.SAVINGS_PRE_NOTE_DEBIT)
 
     @property
     def addenda_count(self):

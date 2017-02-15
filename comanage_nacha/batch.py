@@ -1,3 +1,4 @@
+from comanage_nacha.enums import ServiceClassCodes
 from comanage_nacha.exceptions import EntryClosedError
 from .entry import Entry
 from .entries import CompanyBatchHeader, CompanyBatchControl
@@ -41,6 +42,16 @@ class Batch(object):
         return sum(entry.entry_detail.amount for entry in self.entries if entry.is_credit)
 
     def close(self):
+        if not self.batch_header.service_class_code:
+            is_credit = any(entry.is_credit for entry in self.entries)
+            is_debit = any(entry.is_debit for entry in self.entries)
+            if is_credit and is_debit:
+                self.batch_header.service_class_code = ServiceClassCodes.MIXED_DEBITS_CREDITS
+            elif is_credit:
+                self.batch_header.service_class_code = ServiceClassCodes.CREDITS
+            elif is_debit:
+                self.batch_header.service_class_code = ServiceClassCodes.DEBITS
+
         self.batch_control = CompanyBatchControl(
             service_class_code=self.batch_header.service_class_code,
             entry_addenda_count=sum(1 + entry.addenda_count for entry in self.entries),

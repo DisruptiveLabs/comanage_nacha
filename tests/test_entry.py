@@ -1,3 +1,4 @@
+from comanage_nacha import TransactionCodes
 from comanage_nacha.entry import Entry
 
 
@@ -10,12 +11,12 @@ def test_add_addenda():
 
 
 def test_is_credit():
-    entry = Entry(1, transaction_code=23)
+    entry = Entry(1, transaction_code=TransactionCodes.CHECKING_CREDIT)
     assert entry.is_credit
 
 
 def test_is_debit():
-    entry = Entry(1, transaction_code=27)
+    entry = Entry(1, transaction_code=TransactionCodes.CHECKING_DEBIT)
     assert entry.is_debit
 
 
@@ -31,7 +32,7 @@ def test_addenda_count():
 
 def test_lines():
     entry = Entry(1,
-                  transaction_code=22,
+                  transaction_code=TransactionCodes.CHECKING_CREDIT,
                   receiving_dfi_routing_number='07640125',
                   routing_number_check_digit=1,
                   receiving_dfi_account_number='1234567890',

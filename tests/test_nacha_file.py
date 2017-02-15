@@ -1,4 +1,8 @@
+import pytest
+
+from comanage_nacha import TransactionCodes
 from comanage_nacha.entries.entrybase import EntryBase
+from comanage_nacha.exceptions import EntryClosedError
 from comanage_nacha.nacha_file import NachaFile
 
 
@@ -41,9 +45,12 @@ def test_file_control():
     assert nacha.file_control.total_file_debit_entry_amount == 0
     nacha = NachaFile()
     batch = nacha.add_batch()
-    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=23, amount=10000)
-    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=23, amount=10000)
-    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=27, amount=33300)
+    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=TransactionCodes.CHECKING_CREDIT,
+                    amount=10000)
+    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=TransactionCodes.CHECKING_CREDIT,
+                    amount=10000)
+    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=TransactionCodes.CHECKING_DEBIT,
+                    amount=33300)
     batch.close()
     nacha.close()
     assert nacha.file_control.batch_count == 1
@@ -52,6 +59,13 @@ def test_file_control():
     assert nacha.file_control.entry_hash_total == '37037034'
     assert nacha.file_control.total_file_credit_entry_amount == 20000
     assert nacha.file_control.total_file_debit_entry_amount == 33300
+
+
+def test_cannot_add_batch_after_close():
+    nacha = NachaFile()
+    nacha.close()
+    with pytest.raises(EntryClosedError):
+        nacha.add_batch()
 
 
 def test_lines():
@@ -64,12 +78,14 @@ def test_lines():
     nacha.close()
     assert len(list(nacha.lines)) == 4
     nacha.file_control = batch.batch_control = None
-    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=23, amount=10000)
+    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=TransactionCodes.CHECKING_CREDIT,
+                    amount=10000)
     batch.close()
     nacha.close()
     assert len(list(nacha.lines)) == 5
     nacha.file_control = batch.batch_control = None
-    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=23, amount=10000).add_addenda()
+    batch.add_entry(receiving_dfi_routing_number='12345678', transaction_code=TransactionCodes.CHECKING_CREDIT,
+                    amount=10000).add_addenda()
     batch.close()
     nacha.close()
     assert len(list(nacha.lines)) == 7
