@@ -20,6 +20,9 @@ def test_context_manager():
                                  amount=10000,
                                  individual_id='123',
                                  individual_name='FRANK') as entry:
-                pass
-    print(nacha.render_to_string())
-    assert '\n'.join(map(str, nacha.lines))
+                entry.add_addenda()
+
+    nacha.render_to_string()
+    assert nacha.calculate_block_count() == 1
+    assert nacha.batch_count == 1
+    assert len(list(nacha.lines)) == 6

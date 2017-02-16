@@ -1,9 +1,18 @@
 language: python
+python:
+  - '2.6'
+  - '2.7'
+  - '3.3'
+  - '3.4'
+  - '3.5'
+  - '3.6'
+  - nightly
+
 install:
-  - pip install 'pytest>=2.8' tox coveralls
+  - pip install 'pytest>=2.8' coveralls
 
 script:
-  - tox
+  - python setup.py test
 
 after_success:
   - coveralls

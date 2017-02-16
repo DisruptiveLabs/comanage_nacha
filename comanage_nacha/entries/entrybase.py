@@ -11,9 +11,6 @@ class EntryBase(six.with_metaclass(abc.ABCMeta)):
     format = '0'
     error_code = None
 
-    def __str__(self):
-        return self.dumps()
-
     @abc.abstractmethod
     def loads(self, line):
         raise NotImplementedError

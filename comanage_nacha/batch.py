@@ -5,8 +5,8 @@ from .entries import CompanyBatchHeader, CompanyBatchControl
 
 
 class Batch(object):
-    def __init__(self, batch_number, **kwargs):
-        self.batch_header = CompanyBatchHeader(batch_number=batch_number, **kwargs)
+    def __init__(self, batch_number, batch_header=None, **kwargs):
+        self.batch_header = batch_header or CompanyBatchHeader(batch_number=batch_number, **kwargs)
         self.batch_control = None
         self.batch_number = 0
         self.entries = []
@@ -25,6 +25,14 @@ class Batch(object):
         entry = Entry(**kwargs)
         self.entries.append(entry)
         return entry
+
+    @property
+    def error_code(self):
+        return self.batch_header.error_code
+
+    @error_code.setter
+    def error_code(self, value):
+        self.set_error_code(value)
 
     def set_error_code(self, error_code):
         self.batch_header.error_code = error_code

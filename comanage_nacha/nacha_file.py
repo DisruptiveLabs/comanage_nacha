@@ -1,3 +1,7 @@
+import datetime
+
+import math
+
 from comanage_nacha.exceptions import EntryClosedError
 from .batch import Batch
 from .entries import FileHeader, FileControl
@@ -5,6 +9,8 @@ from .entries import FileHeader, FileControl
 
 class NachaFile(object):
     def __init__(self, file_header=None, file_control=None, batches=None, **kwargs):
+        kwargs.setdefault('file_creation_date', datetime.date.today())
+        kwargs.setdefault('file_creation_time', datetime.datetime.utcnow().time())
         self.file_header = file_header or FileHeader(**kwargs)
         self.file_control = file_control
         self.batches = batches or []
@@ -23,6 +29,14 @@ class NachaFile(object):
         self.batches.append(batch)
         return batch
 
+    @property
+    def error_code(self):
+        return self.file_header.error_code
+
+    @error_code.setter
+    def error_code(self, value):
+        self.set_error_code(value)
+
     def set_error_code(self, error_code):
         self.file_header.error_code = error_code
         for batch in self.batches:
@@ -33,12 +47,12 @@ class NachaFile(object):
                    for batch in self.batches)
 
     def calculate_block_count(self):
-        return (
+        return int(math.ceil((
             1 +  # File Header
             len(self.batches) * 2 +  # Batch Headers and Controls
             self.calculate_entry_addenda_record_count() +
             1  # File Control
-        )
+        ) / 10.0))
 
     @property
     def batch_count(self):

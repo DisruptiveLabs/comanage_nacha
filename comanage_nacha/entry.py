@@ -6,8 +6,8 @@ from .entries import EntryDetail
 class Entry(object):
     """A high-level representation of a NACHA entry and its addenda"""
 
-    def __init__(self, trace_number, **kwargs):
-        self.entry_detail = EntryDetail(trace_number=trace_number, **kwargs)
+    def __init__(self, trace_number, entry_detail=None, **kwargs):
+        self.entry_detail = entry_detail or EntryDetail(trace_number=trace_number, **kwargs)
         self.addenda = []
 
     def __enter__(self):
@@ -23,6 +23,14 @@ class Entry(object):
         self.entry_detail.addenda_record_indicator = 1
         self.addenda.append(addenda)
         return addenda
+
+    @property
+    def error_code(self):
+        return self.entry_detail.error_code
+
+    @error_code.setter
+    def error_code(self, value):
+        self.set_error_code(value)
 
     def set_error_code(self, error_code):
         self.entry_detail.error_code = error_code

@@ -1,3 +1,4 @@
+import datetime
 import pytest
 
 from comanage_nacha import TransactionCodes
@@ -25,11 +26,14 @@ def test_calculate_entry_addenda_record_count():
 
 def test_calculate_block_count():
     nacha = NachaFile()
-    assert nacha.calculate_block_count() == 2
+    assert nacha.calculate_block_count() == 1
     batch = nacha.add_batch()
-    assert nacha.calculate_block_count() == 4
+    assert nacha.calculate_block_count() == 1
     batch.add_entry()
-    assert nacha.calculate_block_count() == 5
+    assert nacha.calculate_block_count() == 1
+    for _ in range(100):
+        batch.add_entry()
+    assert nacha.calculate_block_count() == 11
 
 
 def test_file_control():
@@ -38,7 +42,7 @@ def test_file_control():
     assert nacha.file_control is not None
     assert nacha.file_control.code == '9'
     assert nacha.file_control.batch_count == 0
-    assert nacha.file_control.block_count == 2
+    assert nacha.file_control.block_count == 1
     assert nacha.file_control.entry_addenda_record_count == 0
     assert nacha.file_control.entry_hash_total == '0'
     assert nacha.file_control.total_file_credit_entry_amount == 0
@@ -54,7 +58,7 @@ def test_file_control():
     batch.close()
     nacha.close()
     assert nacha.file_control.batch_count == 1
-    assert nacha.file_control.block_count == 7
+    assert nacha.file_control.block_count == 1
     assert nacha.file_control.entry_addenda_record_count == 3
     assert nacha.file_control.entry_hash_total == '37037034'
     assert nacha.file_control.total_file_credit_entry_amount == 20000
