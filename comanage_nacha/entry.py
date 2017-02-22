@@ -4,7 +4,11 @@ from .entries import EntryDetail
 
 
 class Entry(object):
-    """A high-level representation of a NACHA entry and its addenda"""
+    """
+    A high-level representation of a NACHA entry and its addenda
+
+    @type addenda: list[Addenda]
+    """
 
     def __init__(self, trace_number, entry_detail=None, **kwargs):
         self.entry_detail = entry_detail or EntryDetail(trace_number=trace_number, **kwargs)

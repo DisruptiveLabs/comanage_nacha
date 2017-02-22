@@ -1,9 +1,9 @@
-from .entries import EntryAddenda
+from .entries import addenda_types
 
 
 class Addenda(object):
     def __init__(self, entry_addenda=None, **kwargs):
-        self.entry_addenda = entry_addenda or EntryAddenda(**kwargs)
+        self.entry_addenda = entry_addenda or addenda_types[kwargs.pop('addenda_type_code', 5)](**kwargs)
 
     @property
     def error_code(self):

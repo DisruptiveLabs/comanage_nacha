@@ -8,6 +8,10 @@ from .entries import FileHeader, FileControl
 
 
 class NachaFile(object):
+    """
+    @type batches: list[Batch]
+    """
+
     def __init__(self, file_header=None, file_control=None, batches=None, **kwargs):
         kwargs.setdefault('file_creation_date', datetime.date.today())
         kwargs.setdefault('file_creation_time', datetime.datetime.utcnow().time())
@@ -48,11 +52,11 @@ class NachaFile(object):
 
     def calculate_block_count(self):
         return int(math.ceil((
-            1 +  # File Header
-            len(self.batches) * 2 +  # Batch Headers and Controls
-            self.calculate_entry_addenda_record_count() +
-            1  # File Control
-        ) / 10.0))
+                                 1 +  # File Header
+                                 len(self.batches) * 2 +  # Batch Headers and Controls
+                                 self.calculate_entry_addenda_record_count() +
+                                 1  # File Control
+                             ) / 10.0))
 
     @property
     def batch_count(self):

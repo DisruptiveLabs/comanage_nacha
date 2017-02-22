@@ -5,6 +5,10 @@ from .entries import CompanyBatchHeader, CompanyBatchControl
 
 
 class Batch(object):
+    """
+    @type entries: list[Entry]
+    """
+
     def __init__(self, batch_number, batch_header=None, **kwargs):
         self.batch_header = batch_header or CompanyBatchHeader(batch_number=batch_number, **kwargs)
         self.batch_control = None

@@ -5,13 +5,12 @@ extras_require = {
     'tests': [
         'pytest>=2.8',
         'pytest-cov',
-        'pytest-flake8',
     ],
 }
 
 setuptools.setup(
     name='comanage_nacha',
-    version='0.2',
+    version='0.2.1',
     url='https://github.com/DisruptiveLabs/comanage_nacha',
     author='DisruptiveLabs',
     author_email='team+nacha@comanage.com',
