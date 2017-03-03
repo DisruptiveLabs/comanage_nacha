@@ -31,7 +31,6 @@ class EntryDetail(EntryBase):
                  addenda_record_indicator=0,
                  wells_fargo_routing_number='09100001',
                  trace_number=None,
-                 company_batch_record=None,
                  error_code=None,
                  ):
         self.transaction_code = transaction_code
@@ -45,7 +44,6 @@ class EntryDetail(EntryBase):
         self.addenda_record_indicator = addenda_record_indicator
         self.wells_fargo_routing_number = wells_fargo_routing_number
         self.trace_number = trace_number
-        self.company_batch_record = company_batch_record
         self.error_code = error_code
 
     def loads(self, line):

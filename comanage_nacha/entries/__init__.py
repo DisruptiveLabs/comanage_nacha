@@ -4,6 +4,7 @@ from .entry_addenda import EntryAddendaBase, EntryAddenda, EntryAddendaNotificat
 from .entry_detail import EntryDetail
 from .file_control import FileControl
 from .file_header import FileHeader
+from .blocking_file_control import BlockingFileControl
 
 entry_types = {
     FileHeader.code: FileHeader,

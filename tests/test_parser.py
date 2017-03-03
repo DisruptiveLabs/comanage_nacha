@@ -25,6 +25,7 @@ def test_parse_lines_simple():
 
 def test_parse_simple():
     nacha = parser.parse(simple)
+    nacha.include_blocking_lines = False
     assert isinstance(nacha, NachaFile)
     assert len(list(nacha.lines)) == 5
 
@@ -50,6 +51,7 @@ def test_parse_lines_large():
 
 def test_parse_large():
     nacha = parser.parse(large)
+    nacha.include_blocking_lines = False
     assert isinstance(nacha, NachaFile)
     assert len(list(nacha.lines)) == 12
 
@@ -68,6 +70,7 @@ def test_parse_lines_addenda():
 
 def test_parse_addenda():
     nacha = parser.parse(with_addenda)
+    nacha.include_blocking_lines = False
     assert isinstance(nacha, NachaFile)
     assert len(list(nacha.lines)) == 6
 

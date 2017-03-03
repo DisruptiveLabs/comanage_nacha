@@ -25,4 +25,6 @@ def test_context_manager():
     nacha.render_to_string()
     assert nacha.calculate_block_count() == 1
     assert nacha.batch_count == 1
+    assert len(list(nacha.lines)) == 10
+    nacha.include_blocking_lines = False
     assert len(list(nacha.lines)) == 6

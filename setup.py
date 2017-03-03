@@ -10,7 +10,7 @@ extras_require = {
 
 setuptools.setup(
     name='comanage_nacha',
-    version='0.2.1',
+    version='0.2.2',
     url='https://github.com/DisruptiveLabs/comanage_nacha',
     author='DisruptiveLabs',
     author_email='team+nacha@comanage.com',

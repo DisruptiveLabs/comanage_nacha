@@ -4,7 +4,7 @@ import math
 
 from comanage_nacha.exceptions import EntryClosedError
 from .batch import Batch
-from .entries import FileHeader, FileControl
+from .entries import BlockingFileControl, FileHeader, FileControl
 
 
 class NachaFile(object):
@@ -12,9 +12,10 @@ class NachaFile(object):
     @type batches: list[Batch]
     """
 
-    def __init__(self, file_header=None, file_control=None, batches=None, **kwargs):
+    def __init__(self, file_header=None, file_control=None, batches=None, include_blocking_lines=True, **kwargs):
         kwargs.setdefault('file_creation_date', datetime.date.today())
         kwargs.setdefault('file_creation_time', datetime.datetime.utcnow().time())
+        self.include_blocking_lines = include_blocking_lines
         self.file_header = file_header or FileHeader(**kwargs)
         self.file_control = file_control
         self.batches = batches or []
@@ -74,11 +75,18 @@ class NachaFile(object):
 
     @property
     def lines(self):
+        line_count = 1
         yield self.file_header
         for batch in self.batches:
             for line in batch.lines:
+                line_count += 1
                 yield line
+        line_count += 1
         yield self.file_control
+
+        if self.include_blocking_lines:
+            for _ in range(line_count % 10, 10):
+                yield BlockingFileControl()
 
     def render_to_string(self):
         return '\n'.join(line.dumps() for line in self.lines)

@@ -73,7 +73,7 @@ def test_cannot_add_batch_after_close():
 
 
 def test_lines():
-    nacha = NachaFile()
+    nacha = NachaFile(include_blocking_lines=False)
     nacha.close()
     assert len(list(nacha.lines)) == 2
     nacha.file_control = None

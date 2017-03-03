@@ -39,7 +39,7 @@ class Parser(object):
         nacha_file = None
 
         for line in lines:
-            assert line.code in entry_types.keys()
+            assert line.code in entry_types.keys(), 'Line code {} not known'.format(line.code)
 
             if line.code == '1':
                 nacha_file = NachaFile(file_header=line)

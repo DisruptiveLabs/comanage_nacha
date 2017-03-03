@@ -10,9 +10,9 @@ class Batch(object):
     """
 
     def __init__(self, batch_number, batch_header=None, **kwargs):
+        self.batch_number = batch_number
         self.batch_header = batch_header or CompanyBatchHeader(batch_number=batch_number, **kwargs)
         self.batch_control = None
-        self.batch_number = 0
         self.entries = []
 
     def __enter__(self):
