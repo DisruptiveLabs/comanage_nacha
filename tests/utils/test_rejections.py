@@ -104,10 +104,10 @@ def test_addenda_rejection():
                for addenda in entry.addenda)
 
 
-def test_filtering_non_rejected_file_is_empty():
+def test_filtering_non_rejected_file_has_header_and_control():
     nacha = Parser().parse(large_file_with_addenda)
     rejected_lines = list(rejection.filter_rejection_lines(nacha.lines))
-    assert not rejected_lines
+    assert 2 == len(rejected_lines)
 
 
 def test_random_rejection():
