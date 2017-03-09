@@ -28,7 +28,8 @@ def filter_rejection_lines(lines):
                 if not batch.entries:
                     nacha.batches.remove(batch)
         if not nacha.batches:
-            return []
+            return [nacha.file_header,
+                    nacha.file_control]
 
     return nacha.lines
 

@@ -1,5 +1,4 @@
 import datetime
-
 import math
 
 from comanage_nacha.exceptions import EntryClosedError
@@ -10,14 +9,16 @@ from .entries import BlockingFileControl, FileHeader, FileControl
 class NachaFile(object):
     """
     @type batches: list[Batch]
+    @type file_header: FileHeader
+    @type file_control: FileControl
     """
 
     def __init__(self, file_header=None, file_control=None, batches=None, include_blocking_lines=True, **kwargs):
         kwargs.setdefault('file_creation_date', datetime.date.today())
         kwargs.setdefault('file_creation_time', datetime.datetime.utcnow().time())
         self.include_blocking_lines = include_blocking_lines
-        self.file_header = file_header or FileHeader(**kwargs)
-        self.file_control = file_control
+        self.file_header = file_header or FileHeader(**kwargs)  # type: FileHeader
+        self.file_control = file_control  # type: FileControl
         self.batches = batches or []
 
     def __enter__(self):

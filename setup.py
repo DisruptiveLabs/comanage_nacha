@@ -10,10 +10,11 @@ extras_require = {
 
 setuptools.setup(
     name='comanage_nacha',
-    version='0.2.2',
+    version='0.2.3',
     url='https://github.com/DisruptiveLabs/comanage_nacha',
     author='DisruptiveLabs',
     author_email='team+nacha@comanage.com',
+    license='MIT',
     description='NACHA File Generation',
     long_description=codecs.open('README.rst', 'r', encoding='utf-8').read(),
     platforms='any',
