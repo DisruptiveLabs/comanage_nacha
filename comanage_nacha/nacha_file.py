@@ -75,6 +75,18 @@ class NachaFile(object):
         )
 
     @property
+    def message_codes(self):
+        if not self.file_control:
+            return []
+        return self.file_control.message_codes
+
+    @property
+    def messages(self):
+        if not self.file_control:
+            return []
+        return self.file_control.messages
+
+    @property
     def lines(self):
         line_count = 1
         yield self.file_header

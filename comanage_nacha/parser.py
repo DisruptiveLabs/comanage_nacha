@@ -16,7 +16,8 @@ class Parser(object):
             if line.strip() == Parser._blocking_file_control_record:
                 # There shouldn't be any content after a blocking control record
                 break
-
+            if not line:
+                continue
             code = line[0]
             entry = entry_types[code].from_text(line)
             yield entry

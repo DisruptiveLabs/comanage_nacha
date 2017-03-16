@@ -1,3 +1,4 @@
+from comanage_nacha.message_codes import MESSAGE_CODES
 from .entrybase import EntryBase
 
 
@@ -54,3 +55,7 @@ class FileControl(EntryBase):
     @property
     def message_codes(self):
         return [i for i in [self.message_code1, self.message_code2, self.message_code3] if i]
+
+    @property
+    def messages(self):
+        return [MESSAGE_CODES[i] for i in self.message_codes]
