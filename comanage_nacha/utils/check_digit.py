@@ -4,7 +4,7 @@ def calculate_check_digit(routing_number):
     weights = [3, 7, 1, 3, 7, 1, 3, 7]
 
     assert len(digits) == len(weights)
-    return 10 - (sum([a * b for a, b in zip(digits, weights)]) % 10)
+    return (10 - (sum([a * b for a, b in zip(digits, weights)]) % 10)) % 10
 
 
 def validate_check_digit(routing_number, check_digit):
