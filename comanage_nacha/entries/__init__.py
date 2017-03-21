@@ -13,6 +13,7 @@ entry_types = {
     EntryAddendaBase.code: EntryAddendaBase,
     CompanyBatchControl.code: CompanyBatchControl,
     FileControl.code: FileControl,
+    BlockingFileControl.code: BlockingFileControl
 }
 
 __all__ = [

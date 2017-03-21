@@ -2,7 +2,7 @@ from comanage_nacha.entries.entrybase import EntryBase
 
 
 class BlockingFileControl(EntryBase):
-    code = '9'
+    code = '9' * 94
     format = (
         '9' * 94
     )
